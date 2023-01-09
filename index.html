@@ -7,6 +7,42 @@
     <title>Jetpack Travel - Главная</title>
 </head>
 <body>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Заявка номер <span id="order-number">5</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p>ФИО гида: <span class="fw-bold">Виктор корнеплод</span></p>
+                        <p>Название маршрута: <span class="fw-bold">Москва - Воронеж</span></p>
+                        <p>Дата экскурсии: <span class="fw-bold">10.05.2023</span></p>
+                        <p>Время начала: <span class="fw-bold">10:00</span></p>
+                        <p>Длительность экскурсии: <span class="fw-bold">2 часа</span></p>
+                        <p>Количество человек: <span class="fw-bold">6</span></p>
+                    </div>
+                    <h4 class="text-center">Дополнительные опции</h4>
+                    <div>
+                        <p>Название опции</p>
+                        <p>Описание опции</p>
+                        <p>Размер скидки/надбавки</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="content">
         <div class="nav">
             <div class="nav-left">
@@ -24,48 +60,54 @@
             <p>Текст сообщения</p>
             <img src="assets/close.svg" alt="Закрыть">
         </div>
-        <div class="company-info">
-            <img src="assets/cat2.jpg" alt="Фото компании">
-            <div class="company-description">
-                Jetpack – реактивный ранец – это уникальное средство передвижения.
-                Ты можешь взлететь в считанные секунды, увидеть мир с другого ракурса, слиться с природой, и оказаться в любой точке земного шара.
-                Наша команда меняет представление об идеальном отдыхе – мы предлагаем получить незабываемые впечатления в компании друзей.
+        <div class="container mt-4">
+            <div class="row justify-content-md-center">
+                <img class="company-description-img col-5" src="assets/cat2.jpg" alt="Фото компании">
+                <div class="col-5 company-description">
+                    Jetpack – реактивный ранец – это уникальное средство передвижения.
+                    Ты можешь взлететь в считанные секунды, увидеть мир с другого ракурса, слиться с природой, и оказаться в любой точке земного шара.
+                    Наша команда меняет представление об идеальном отдыхе – мы предлагаем получить незабываемые впечатления в компании друзей.
+                </div>
             </div>
         </div>
         <div class="travel-info">
             <h1>Что включено?</h1>
-            <div class="travel-info-items">
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
                 </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
-                </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
-                </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
-                </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
-                </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
-                </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
-                </div>
-                <div class="travel-info-item">
-                    <img src="assets/cat3.jpg" alt="Информации о пункте">
-                    <p>Текст</p>
+                <div class="row">
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
+                    <div class="col travel-info-item">
+                        <img src="assets/cat3.jpg" alt="Информации о пункте">
+                        <p>Текст</p>
+                    </div>
                 </div>
             </div>
         </div>
