@@ -1,5 +1,9 @@
 const API_KEY = 'aabd4739-6934-4171-8805-bdcf1ee1eef8';
+const ROUTES_PER_PAGE = 10;
+var routeCurrentPage = 1;
+var routeTotalPages;
 var routeList = [];
+var filteredRouteList = [];
 
 function sendGet(url, callback) {
     let xmlhttp = new XMLHttpRequest();
@@ -44,16 +48,11 @@ function sendCUD(url, callback, formData = new FormData, method = 'POST') {
 // Получение списка маршрутов
 function getRouteList() {
     sendGet('http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes', function (response) {
+        routeTotalPages = Math.ceil(response.length / ROUTES_PER_PAGE);
+        routeCurrentPage = 1;
         routeList = response;
-        clearRouteTable();
-        for (let i = 0; i < routeList.length; i++) {
-            addRouteToTable(
-                routeList[i].id,
-                routeList[i].name,
-                routeList[i].description,
-                routeList[i].mainObject
-            );
-        }
+        filteredRouteList = response;
+        goToRoutesPage(1);
     });
 }
 
@@ -73,17 +72,14 @@ function filterRoutes(name) {
             }
         }
     }
-    clearRouteTable();
-    for (let i = 0; i < newRoutes.length; i++) {
-        addRouteToTable(
-            newRoutes[i].id,
-            newRoutes[i].name,
-            newRoutes[i].description,
-            newRoutes[i].mainObject
-        );
-    }
+    filteredRouteList = newRoutes;
+    routeTotalPages = Math.ceil(filteredRouteList.length / ROUTES_PER_PAGE);
+    routeCurrentPage = 1;
+    goToRoutesPage(1);
+    renderPaginationElement();
 }
 
+// Добавление маршрута в таблицу
 function addRouteToTable(id, name, description, mainObject) {
     let table = document.getElementById('routeTable').children[0];
 
@@ -199,6 +195,67 @@ function getGuide(guideId) {
 
 function routeSearchEvent(event) {
     filterRoutes(event.value);
+}
+
+// Рендер навигационных кнопок для пагинации
+function renderPaginationElement() {
+    let paginationContainer = document.querySelector('.pagination');
+    paginationContainer.innerHTML = '';
+    let btn = createPageBtn(1, ['first-page-btn']);
+    btn.onclick = () => goToRoutesPage(1);
+    btn.innerHTML = 'Первая страница';
+    if (routeCurrentPage === 1) {
+        btn.style.visibility = 'hidden';
+    }
+    paginationContainer.append(btn);
+
+    let buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('pages-btns');
+    paginationContainer.append(buttonsContainer);
+
+    let start = Math.max(routeCurrentPage - 2, 1);
+    let end = Math.min(routeCurrentPage + 2, routeTotalPages);
+    for (let i = start; i <= end; i++) {
+        buttonsContainer.append(createPageBtn(i, i === routeCurrentPage ? ['active'] : []));
+    }
+
+    btn = createPageBtn(routeTotalPages, ['last-page-btn']);
+    btn.onclick = () => goToRoutesPage(routeTotalPages);
+    btn.innerHTML = 'Последняя страница';
+    if (routeCurrentPage === routeTotalPages) {
+        btn.style.visibility = 'hidden';
+    }
+    paginationContainer.append(btn);
+}
+
+function goToRoutesPage(page) {
+    let totalPages = Math.ceil(filteredRouteList.length / ROUTES_PER_PAGE);
+    if (page < 1 || page > totalPages) {
+        return;
+    }
+    clearRouteTable();
+    for (let i = (page - 1) * ROUTES_PER_PAGE; i < page * ROUTES_PER_PAGE && i < filteredRouteList.length; i++) {
+        addRouteToTable(
+            filteredRouteList[i].id,
+            filteredRouteList[i].name,
+            filteredRouteList[i].description,
+            filteredRouteList[i].mainObject
+        );
+    }
+    routeCurrentPage = page;
+    renderPaginationElement();
+}
+
+// создание кнопки
+function createPageBtn(page, classes = []) {
+    let btn = document.createElement('button');
+    classes.push('btn');
+    for (let cls of classes) {
+        btn.classList.add(cls);
+    }
+    btn.onclick = () => goToRoutesPage(page);
+    btn.innerHTML = page;
+    return btn;
 }
 
 getRouteList();

@@ -169,3 +169,16 @@ button {
     background: #f7f6f6;
     color: #d3d2d2;
 }
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+    height: 40px;
+}
+
+.pagination-info {
+    margin-top: 20px;
+    font-weight: bold;
+    display: flex;
+}
