@@ -200,7 +200,17 @@ button {
 #chosenRouteName {
     color: #F0DC82;
 }
-
+#createOrder {
+    visibility: hidden;
+}
 #guideSection {
     display: none;
+}
+
+.green {
+    color: green;
+}
+
+#formOrder {
+    background: #F0DC82;
 }

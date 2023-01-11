@@ -17,13 +17,16 @@ var currentSearchGuideLanguage = null;
 var currentSearchExperienceFrom = null;
 var currentSearchExperienceTo = null;
 
+var chosenRoute = null;
+var chosenGuide = null;
+
 function sendGet(url, callback) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.responseType = 'json';
 
     xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-            if (xmlhttp.status == 200) {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            if (xmlhttp.status === 200) {
                 callback(xmlhttp.response);
             } else {
                 console.log('Ошибка запроса');
@@ -49,7 +52,7 @@ function sendCUD(url, callback, formData = new FormData, method = 'POST') {
         }
     };
 
-    xmlhttp.open(method, url, true);
+    xmlhttp.open(method, `${url}?api_key=${API_KEY}`, true);
     if (formData == null) {
         formData = new FormData();
     }
@@ -201,6 +204,8 @@ function addRouteToTable(id, name, description, mainObject) {
     let table = document.getElementById('routeTable').children[0];
 
     let fullName = name;
+    let fullDescription = description;
+    let fullMainObject = mainObject;
     name = makeShorter(name, 50);
     description = makeShorter(description, 50);
     mainObject = makeShorter(mainObject, 50);
@@ -226,6 +231,12 @@ function addRouteToTable(id, name, description, mainObject) {
                 otherRows[i].style.background = '';
             }
             tr.style.background = '#8fff55';
+            chosenRoute = {
+                id,
+                name: fullName,
+                description: fullDescription,
+                mainObject: fullMainObject
+            };
             showGuideSection(fullName);
             getGuidesList(id);
         }
@@ -262,15 +273,23 @@ function addGuideToTable(id, language, name, price, experience) {
         let tr = ev.target.parentElement.parentElement;
         if (tr.style.background) {
             tr.style.background = '';
-            // hideGuideSection();
+            document.getElementById('createOrder').style.visibility = 'hidden';
         } else {
             let otherRows = document.getElementById('guidesTable').children[0].children;
             for (let i = 1; i < otherRows.length; i++) {
                 otherRows[i].style.background = '';
             }
             tr.style.background = '#8fff55';
-            // showGuideSection(fullName);
-            // getGuidesList(id);
+            chosenGuide = {
+                id,
+                language,
+                name,
+                price,
+                experience
+            };
+            document.getElementById('createOrderGuideName').innerHTML = name;
+            document.getElementById('createOrderRoute').innerHTML = chosenRoute.name;
+            document.getElementById('createOrder').style.visibility = 'visible';
         }
     }
     buttonTd.append(buttonChose);
@@ -330,7 +349,7 @@ function createOrder(guideId, routeId, date, time, duration, persons, price) {
     formData.append('persons', persons);
     formData.append('price', price);
     sendCUD('http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders', function (response) {
-
+        console.log(response);
     }, formData);
 }
 
@@ -536,6 +555,65 @@ function createPageBtn(page, classes = [], isRoute = true) {
     }
     btn.innerHTML = page;
     return btn;
+}
+
+function submitCreateOrder(form) {
+    let elements = form.elements;
+    let data = {};
+    for(let i = 0 ; i < elements.length ; i++){
+        let item = elements.item(i);
+        data[item.name] = item.value;
+    }
+    let holidays = {
+        0: [1, 2, 3, 4, 5, 6, 7, 8], // январь
+        1: [23], // февраль
+        2: [8], // Март,
+        4: [1, 9], // Май,
+        5: [12], // Июнь,
+        10: [4], // Ноябрь
+    };
+    let date = new Date(`${data.excursionDate} ${data.excursionStartTime}`);
+    let month = date.getMonth();
+    let day = date.getDate();
+    let hours = date.getHours();
+    let isHoliday = month in holidays && holidays[month].includes(day);
+
+    let guideServiceCost = Number(chosenGuide.price);
+    let hoursNumber = Number(data.excursionDuration);
+    let numberOfVisitors = Number(data.excursionPeopleCount);
+    if (numberOfVisitors <= 5) {
+        numberOfVisitors = 0;
+    } else if (numberOfVisitors <= 10) {
+        numberOfVisitors = 1000;
+    } else {
+        numberOfVisitors = 1500;
+    }
+    let isThisDayOff = date.getDay() === 0 || date.getDay() === 6 || isHoliday ? 1.5 : 1;
+    let isItMorning = hours >= 9 && hours <= 12 ? 400 : 0;
+    let isItEvening = hours >= 20 && hours <= 23 ? 1000 : 0;
+
+    let price = guideServiceCost * hoursNumber * isThisDayOff + isItMorning + isItEvening + numberOfVisitors;
+
+    let pensioners = document.getElementById('excursionOption1').checked;
+    if (pensioners) {
+        price = Math.round(0.75 * price);
+    }
+    let food = document.getElementById('excursionOption2').checked;
+    if (food) {
+        price += Number(data.excursionPeopleCount) * 1000;
+    }
+
+    createOrder(
+        chosenGuide.id,
+        chosenRoute.id,
+        data.excursionDate,
+        data.excursionStartTime,
+        hoursNumber,
+        Number(data.excursionPeopleCount),
+        price
+    )
+
+    return false;
 }
 
 getRouteList();

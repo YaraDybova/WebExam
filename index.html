@@ -7,87 +7,54 @@
     <title>Jetpack Travel - Главная</title>
 </head>
 <body>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOrderInfo">
-        Открыть модалку с инфой
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalOrderInfo" tabindex="-1" aria-labelledby="modalOrderInfoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCreateOrder" tabindex="-1" aria-labelledby="modalCreateOrderLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalOrderInfoLabel">Заявка номер <span>5</span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                </div>
-                <div class="modal-body">
-                    <p>ФИО гида: <span class="fw-bold">Виктор корнеплод</span></p>
-                    <p>Название маршрута: <span class="fw-bold">Москва - Воронеж</span></p>
-                    <p>Дата экскурсии: <span class="fw-bold">10.05.2023</span></p>
-                    <p>Время начала: <span class="fw-bold">10:00</span></p>
-                    <p>Длительность экскурсии: <span class="fw-bold">2 часа</span></p>
-                    <p>Количество человек: <span class="fw-bold">6</span></p>
-                    <h4 class="text-center">Дополнительные опции</h4>
-                    <p>Название опции</p>
-                    <p>Описание опции</p>
-                    <p>Размер скидки/надбавки</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="modalOrderEdit" tabindex="-1" aria-labelledby="modalOrderEditLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="">
+                <form action="" id="formOrder" onsubmit="return submitCreateOrder(this)">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalOrderEditLabel">Оформление заявки</h5>
+                        <h5 class="modal-title" id="modalCreateOrderLabel">Оформление заявки</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                     </div>
                     <div class="modal-body">
-                        <p>ФИО гида: <span class="fw-bold">Виктор корнеплод</span></p>
-                        <p>Название маршрута: <span class="fw-bold">Москва - Воронеж</span></p>
+                        <p>ФИО гида: <span class="fw-bold" id="createOrderGuideName"></span></p>
+                        <p>Название маршрута: <span class="fw-bold" id="createOrderRoute"></span></p>
                         <div class="mb-3">
                             <label for="excursionDate" class="form-label">Дата экскурсии</label>
-                            <input type="date" class="form-control" id="excursionDate">
+                            <input required type="date" class="form-control" name="excursionDate" id="excursionDate">
                         </div>
                         <div class="mb-3">
                             <label for="excursionStartTime" class="form-label">Время начала</label>
-                            <input type="time" class="form-control" id="excursionStartTime">
+                            <input required name="excursionStartTime" type="time" step="1800" min="09:00" max="23:00" class="form-control" id="excursionStartTime">
                         </div>
                         <div class="mb-3">
                             <label for="excursionDuration" class="form-label">Длительность экскурсии</label>
-                            <select id="excursionDuration" class="form-select">
+                            <select name="excursionDuration" id="excursionDuration" class="form-select" style="height: 38px">
                                 <option value="1" selected>1 час</option>
                                 <option value="2">2 часа</option>
                                 <option value="3">3 часа</option>
-                                <option value="4">4 часа</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="excursionPeopleCount" class="form-label">Количество человек</label>
-                            <input type="number" class="form-control" id="excursionPeopleCount">
+                            <input name="excursionPeopleCount" required type="number" class="form-control" id="excursionPeopleCount" min="1" max="20" value="1">
                         </div>
                         <h4 class="text-center">Дополнительные опции</h4>
                         <div class="mb-3 form-check border-light border-2 border">
-                            <label class="form-check-label" for="excursionOption1">Название опции</label>
-                            <input type="checkbox" class="form-check-input" id="excursionOption1">
-                            <p class="mb-0">Описание опции</p>
-                            <p class="mb-0">Размер скидки/надбавки</p>
+                            <label class="form-check-label fw-bold" for="excursionOption1">Использовать скидку для пенсионеров</label>
+                            <input name="excursionOption1" value="optionPensioners" type="checkbox" class="form-check-input" id="excursionOption1">
+                            <p class="mb-0">Если один из участников является пенсионером, то вам крупно повезло!</p>
+                            <p class="mb-0 green fw-bold">-25% от стоимости</p>
                         </div>
                         <div class="mb-3 form-check border-light border-2 border">
-                            <label class="form-check-label" for="excursionOption2">Название опции</label>
-                            <input type="checkbox" class="form-check-input" id="excursionOption2">
-                            <p class="mb-0">Описание опции</p>
-                            <p class="mb-0">Размер скидки/надбавки</p>
+                            <label class="form-check-label fw-bold" for="excursionOption2">Легкие закуски и горячие напитки во время экскурсии</label>
+                            <input name="excursionOption2" value="optionFood" type="checkbox" class="form-check-input" id="excursionOption2">
+                            <p class="mb-0">Бесконечная шаурма и кофе на протяжении всей экскурсии!</p>
+                            <p class="mb-0 green fw-bold">Увеличивают стоимость на 1000 рублей за каждого посетителя</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary">Оформить</button>
                     </div>
                 </form>
             </div>
@@ -209,8 +176,8 @@
                 </label>
                 <label>
                     Опыт работы
-                    <input placeholder="От" type="number" oninput="experienceFromPick(this)">
-                    <input placeholder="До" type="number" oninput="experienceToPick(this)">
+                    <input placeholder="От" min="1" type="number" oninput="experienceFromPick(this)">
+                    <input placeholder="До" max="100" type="number" oninput="experienceToPick(this)">
                 </label>
             </div>
             <table class="table" id="guidesTable">
@@ -233,7 +200,7 @@
                 <button class="btn last-page-btn">Последняя страница</button>
             </div>
             <div class="d-flex justify-content-center" id="createOrder">
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalOrderEdit">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCreateOrder">
                     Оформить заявку
                 </button>
             </div>
