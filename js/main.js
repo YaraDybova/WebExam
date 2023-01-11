@@ -84,7 +84,6 @@ function getGuidesList(routeId) {
         let firstOption = document.getElementById('excursionLanguage').children[0];
         document.getElementById('excursionLanguage').innerHTML = '';
         document.getElementById('excursionLanguage').append(firstOption);
-        console.log(response);
         guideTotalPages = Math.ceil(response.length / GUIDES_PER_PAGE);
         guideCurrentPage = 1;
         guideList = response;
@@ -242,6 +241,12 @@ function addGuideToTable(id, language, name, price, experience) {
 
     let tr = document.createElement('tr');
     let avatarTd = document.createElement('td');
+    let img = document.createElement('img');
+    img.src = 'assets/cat2.jpg';
+    img.alt = 'Аватарка';
+    img.style.width = '50px';
+    img.style.height = '50px';
+    avatarTd.append(img);
     let nameTd = document.createElement('td');
     nameTd.innerHTML = name;
     let languagesTd = document.createElement('td');
@@ -254,20 +259,19 @@ function addGuideToTable(id, language, name, price, experience) {
     let buttonChose = document.createElement('button');
     buttonChose.innerHTML = 'Выбрать';
     buttonChose.onclick = function (ev) {
-        console.log(id);
-        // let tr = ev.target.parentElement.parentElement;
-        // if (tr.style.background) {
-        //     tr.style.background = '';
-        //     hideGuideSection();
-        // } else {
-        //     let otherRows = document.getElementById('routeTable').children[0].children;
-        //     for (let i = 1; i < otherRows.length; i++) {
-        //         otherRows[i].style.background = '';
-        //     }
-        //     tr.style.background = '#8fff55';
-        //     showGuideSection(fullName);
-        //     getGuidesList(id);
-        // }
+        let tr = ev.target.parentElement.parentElement;
+        if (tr.style.background) {
+            tr.style.background = '';
+            // hideGuideSection();
+        } else {
+            let otherRows = document.getElementById('guidesTable').children[0].children;
+            for (let i = 1; i < otherRows.length; i++) {
+                otherRows[i].style.background = '';
+            }
+            tr.style.background = '#8fff55';
+            // showGuideSection(fullName);
+            // getGuidesList(id);
+        }
     }
     buttonTd.append(buttonChose);
     tr.append(avatarTd, nameTd, languagesTd, experienceTd, priceTd, buttonTd);

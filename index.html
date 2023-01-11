@@ -11,10 +11,6 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOrderInfo">
         Открыть модалку с инфой
     </button>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOrderEdit">
-        Открыть модалку с редактированием
-    </button>
 
     <!-- Modal -->
     <div class="modal fade" id="modalOrderInfo" tabindex="-1" aria-labelledby="modalOrderInfoLabel" aria-hidden="true">
@@ -48,7 +44,7 @@
             <div class="modal-content">
                 <form action="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalOrderEditLabel">Редактирование заявки</h5>
+                        <h5 class="modal-title" id="modalOrderEditLabel">Оформление заявки</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                     </div>
                     <div class="modal-body">
@@ -131,44 +127,46 @@
                 <div class="row">
                     <div class="col travel-info-item">
                         <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <p>Услуги гида</p>
                     </div>
                     <div class="col travel-info-item">
                         <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <p>Билеты по программе</p>
                     </div>
                     <div class="col travel-info-item">
                         <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <p>Транспорт</p>
                     </div>
                     <div class="col travel-info-item">
                         <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <p>Безалкогольные напитки, питьевая вода премиум класса</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col travel-info-item">
                         <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <p>Билеты в каждую локацию на нашем пути</p>
                     </div>
                     <div class="col travel-info-item">
-                        <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <img src="assets/souvenirs.png" alt="Информации о пункте">
+                        <p>Сувениры и памятные открытки</p>
                     </div>
                     <div class="col travel-info-item">
-                        <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <img src="assets/food.png" alt="Информации о пункте">
+                        <p>Дополнительные услуги: перекус, обед, ужин</p>
                     </div>
                     <div class="col travel-info-item">
-                        <img src="assets/cat3.jpg" alt="Информации о пункте">
-                        <p>Текст</p>
+                        <img src="assets/emotions.png" alt="Информации о пункте">
+                        <p>Незабываемые эмоции!</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <section>
-            <h2>Список пешеходных маршрутов</h2>
+            <div class="d-flex justify-content-center mb-3">
+                <h2>Список пешеходных маршрутов</h2>
+            </div>
             <div class="choice">
                 <input placeholder="Поиск по названию" type="text" oninput="routeSearchEvent(this)">
                 <label>
@@ -199,7 +197,9 @@
         </section>
 
         <section id="guideSection">
-            <h2>Доступные гиды по маршруту: <span id="chosenRouteName"></span></h2>
+            <div class="d-flex justify-content-center mb-3">
+                <h2>Доступные гиды по маршруту: <span id="chosenRouteName"></span></h2>
+            </div>
             <div class="choice">
                 <label>
                     Язык экскурсии:
@@ -213,7 +213,6 @@
                     <input placeholder="До" type="number" oninput="experienceToPick(this)">
                 </label>
             </div>
-
             <table class="table" id="guidesTable">
                 <tr>
                     <th></th>
@@ -232,6 +231,11 @@
                     <button class="btn" data-page="3">3</button>
                 </div>
                 <button class="btn last-page-btn">Последняя страница</button>
+            </div>
+            <div class="d-flex justify-content-center" id="createOrder">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalOrderEdit">
+                    Оформить заявку
+                </button>
             </div>
         </section>
 
