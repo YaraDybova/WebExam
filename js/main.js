@@ -147,6 +147,56 @@ function filterRoutes() {
     renderRoutePaginationElement();
 }
 
+// Фильтрация маршрутов по куску строки
+function filterGuides() {
+    let newGuides = [];
+    if (currentSearchGuideLanguage === null || currentSearchGuideLanguage === 'none') {
+        newGuides = guideList;
+    } else {
+        let name = currentSearchGuideLanguage.toLowerCase().trim();
+        for (let i = 0; i < guideList.length; i++) {
+            let guide = guideList[i];
+            let guideLanguage = guide.language.toLowerCase();
+            if (guideLanguage.includes(name)) {
+                newGuides.push(guide);
+            }
+        }
+    }
+
+    let newGuides2 = [];
+    if (currentSearchExperienceFrom === null) {
+        newGuides2 = newGuides;
+    } else {
+        for (let i = 0; i < newGuides.length; i++) {
+            let guide = newGuides[i];
+            if (guide.workExperience >= currentSearchExperienceFrom) {
+                newGuides2.push(guide);
+            }
+        }
+    }
+
+    let newGuides3 = [];
+    if (currentSearchExperienceTo === null) {
+        newGuides3 = newGuides2;
+    } else {
+        for (let i = 0; i < newGuides2.length; i++) {
+            let guide = newGuides2[i];
+            if (guide.workExperience <= currentSearchExperienceTo) {
+                newGuides3.push(guide);
+            }
+        }
+    }
+
+    filteredGuideList = newGuides3;
+    guideTotalPages = Math.ceil(filteredGuideList.length / GUIDES_PER_PAGE);
+    if (guideTotalPages === 0) {
+        guideTotalPages = 1;
+    }
+    guideCurrentPage = 1;
+    goToGuidesPage(1);
+    renderGuidePaginationElement();
+}
+
 // Добавление маршрута в таблицу
 function addRouteToTable(id, name, description, mainObject) {
     let table = document.getElementById('routeTable').children[0];
@@ -337,6 +387,36 @@ function mainSubjectFilterPick(event) {
         currentSearchMainSubject = mainSubject;
     }
     filterRoutes();
+}
+
+function guideLanguageFilterPick(event) {
+    let language = event.value;
+    if (language === 'none') {
+        currentSearchGuideLanguage = null;
+    } else {
+        currentSearchGuideLanguage = language;
+    }
+    filterGuides();
+}
+
+function experienceFromPick(event) {
+    let number = event.value;
+    if (number < 1) {
+        currentSearchExperienceFrom = null
+    } else {
+        currentSearchExperienceFrom = number;
+    }
+    filterGuides();
+}
+
+function experienceToPick(event) {
+    let number = event.value;
+    if (number < 1) {
+        currentSearchExperienceTo = null
+    } else {
+        currentSearchExperienceTo = number;
+    }
+    filterGuides();
 }
 
 // Рендер навигационных кнопок для пагинации

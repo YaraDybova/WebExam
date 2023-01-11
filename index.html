@@ -169,7 +169,6 @@
 
         <section>
             <h2>Список пешеходных маршрутов</h2>
-
             <div class="choice">
                 <input placeholder="Поиск по названию" type="text" oninput="routeSearchEvent(this)">
                 <label>
@@ -201,18 +200,17 @@
 
         <section id="guideSection">
             <h2>Доступные гиды по маршруту: <span id="chosenRouteName"></span></h2>
-
             <div class="choice">
                 <label>
                     Язык экскурсии:
-                    <select id="excursionLanguage" oninput="">
+                    <select id="excursionLanguage" oninput="guideLanguageFilterPick(this)">
                         <option value="none" selected>Не выбрано</option>
                     </select>
                 </label>
                 <label>
                     Опыт работы
-                    <input placeholder="От" type="number" oninput="">
-                    <input placeholder="До" type="number" oninput="">
+                    <input placeholder="От" type="number" oninput="experienceFromPick(this)">
+                    <input placeholder="До" type="number" oninput="experienceToPick(this)">
                 </label>
             </div>
 
