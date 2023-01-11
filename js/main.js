@@ -40,8 +40,8 @@ function sendCUD(url, callback, formData = new FormData, method = 'POST') {
     xmlhttp.responseType = 'json';
 
     xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-            if (xmlhttp.status == 200) {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            if (xmlhttp.status === 200) {
                 callback(xmlhttp.response);
             } else {
                 console.log('Ошибка запроса');
@@ -80,6 +80,10 @@ function getRouteList() {
 // Получение списка гидов
 function getGuidesList(routeId) {
     sendGet(`http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/${routeId}/guides`, function (response) {
+        clearGuidesTable();
+        let firstOption = document.getElementById('excursionLanguage').children[0];
+        document.getElementById('excursionLanguage').innerHTML = '';
+        document.getElementById('excursionLanguage').append(firstOption);
         console.log(response);
         guideTotalPages = Math.ceil(response.length / GUIDES_PER_PAGE);
         guideCurrentPage = 1;
@@ -228,7 +232,7 @@ function showGuideSection(routeName) {
 
 // Скрыть секцию с гидами
 function hideGuideSection() {
-    document.getElementById('guideSection').style.visibility = 'none';
+    document.getElementById('guideSection').style.display = 'none';
     document.getElementById('chosenRouteName').innerHTML = '';
 }
 
@@ -385,7 +389,7 @@ function renderGuidePaginationElement() {
     let start = Math.max(guideCurrentPage - 2, 1);
     let end = Math.min(guideCurrentPage + 2, guideTotalPages);
     for (let i = start; i <= end; i++) {
-        buttonsContainer.append(createPageBtn(i, i === guideCurrentPage ? ['active'] : []));
+        buttonsContainer.append(createPageBtn(i, i === guideCurrentPage ? ['active'] : [], false));
     }
 
     btn = createPageBtn(guideTotalPages, ['last-page-btn']);
@@ -423,11 +427,11 @@ function goToGuidesPage(page) {
     }
     for (let i = (page - 1) * GUIDES_PER_PAGE; i < page * GUIDES_PER_PAGE && i < filteredGuideList.length; i++) {
         addGuideToTable(
-            filteredRouteList[i].id,
-            filteredRouteList[i].language,
-            filteredRouteList[i].name,
-            filteredRouteList[i].pricePerHour,
-            filteredRouteList[i].workExperience
+            filteredGuideList[i].id,
+            filteredGuideList[i].language,
+            filteredGuideList[i].name,
+            filteredGuideList[i].pricePerHour,
+            filteredGuideList[i].workExperience
         );
     }
     guideCurrentPage = page;
@@ -435,13 +439,17 @@ function goToGuidesPage(page) {
 }
 
 // создание кнопки
-function createPageBtn(page, classes = []) {
+function createPageBtn(page, classes = [], isRoute = true) {
     let btn = document.createElement('button');
     classes.push('btn');
     for (let cls of classes) {
         btn.classList.add(cls);
     }
-    btn.onclick = () => goToRoutesPage(page);
+    if (isRoute) {
+        btn.onclick = () => goToRoutesPage(page);
+    } else {
+        btn.onclick = () => goToGuidesPage(page);
+    }
     btn.innerHTML = page;
     return btn;
 }
