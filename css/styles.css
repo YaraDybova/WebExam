@@ -96,6 +96,8 @@ html body {
 
 .choice {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
     gap: 50px;
 }
 
@@ -129,9 +131,15 @@ section {
 /* Таблица */
 .table {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto;
     max-width: 960px;
     width: 100%;
+}
+
+#mainObjectsSelect {
+    width: 400px;
+    max-width: 400px;
+    text-overflow: ellipsis;
 }
 
 .table tr {
@@ -181,4 +189,12 @@ button {
     margin-top: 20px;
     font-weight: bold;
     display: flex;
+}
+
+#chosenRouteName {
+    color: #00fff3;
+}
+
+#guideSection {
+    display: none;
 }

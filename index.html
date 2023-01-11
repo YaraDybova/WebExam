@@ -168,16 +168,16 @@
         </div>
 
         <section>
-            <h2>Скисок пешеходных маршрутов</h2>
+            <h2>Список пешеходных маршрутов</h2>
 
             <div class="choice">
                 <input placeholder="Поиск по названию" type="text" oninput="routeSearchEvent(this)">
-
-                <select name="select">
-                    <option value="value1">Значение 1</option>
-                    <option value="value2" selected>Основной объект</option>
-                    <option value="value3">Значение 3</option>
-                </select>
+                <label>
+                    Основной объект:
+                    <select id="mainObjectsSelect" oninput="mainSubjectFilterPick(this)">
+                        <option value="none" selected>Не выбрано</option>
+                    </select>
+                </label>
             </div>
 
             <table class="table" id="routeTable">
@@ -188,7 +188,7 @@
                     <th></th>
                 </tr>
             </table>
-            <div class="pagination">
+            <div class="pagination" id="paginationRoutes">
                 <button class="btn first-page-btn" data-page="1">Первая страница</button>
                 <div class="pages-btn">
                     <button class="btn" data-page="1">1</button>
@@ -198,6 +198,45 @@
                 <button class="btn last-page-btn">Последняя страница</button>
             </div>
         </section>
+
+        <section id="guideSection">
+            <h2>Доступные гиды по маршруту: <span id="chosenRouteName"></span></h2>
+
+            <div class="choice">
+                <label>
+                    Язык экскурсии:
+                    <select id="excursionLanguage" oninput="">
+                        <option value="none" selected>Не выбрано</option>
+                    </select>
+                </label>
+                <label>
+                    Опыт работы
+                    <input placeholder="От" type="number" oninput="">
+                    <input placeholder="До" type="number" oninput="">
+                </label>
+            </div>
+
+            <table class="table" id="guidesTable">
+                <tr>
+                    <th></th>
+                    <th>ФИО</th>
+                    <th>Языки</th>
+                    <th>Опыт работы</th>
+                    <th>Стоимость в час</th>
+                    <th></th>
+                </tr>
+            </table>
+            <div class="pagination" id="paginationGuides">
+                <button class="btn first-page-btn" data-page="1">Первая страница</button>
+                <div class="pages-btn">
+                    <button class="btn" data-page="1">1</button>
+                    <button class="btn" data-page="2">2</button>
+                    <button class="btn" data-page="3">3</button>
+                </div>
+                <button class="btn last-page-btn">Последняя страница</button>
+            </div>
+        </section>
+
         <div class="footer">
             2023
         </div>
