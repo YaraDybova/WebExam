@@ -16,6 +16,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                     </div>
                     <div class="modal-body">
+                        <p class="red" id="orderError"></p>
                         <p>ФИО гида: <span class="fw-bold" id="createOrderGuideName"></span></p>
                         <p>Название маршрута: <span class="fw-bold" id="createOrderRoute"></span></p>
                         <div class="mb-3">
@@ -74,9 +75,9 @@
                 <a href="#">Личный кабинет</a>
             </div>
         </div>
-        <div class="message">
-            <p>Текст сообщения</p>
-            <img src="assets/close.svg" alt="Закрыть">
+        <div class="message" id="successBlock">
+            <p id="successMessage">Текст сообщения</p>
+            <img src="assets/close.svg" alt="Закрыть" onclick="closeSuccessMessage()">
         </div>
         <div class="container mt-4">
             <div class="row justify-content-md-center">
@@ -206,8 +207,10 @@
             </div>
         </section>
 
-        <div class="footer">
-            2023
+        <div class="footer d-flex flex-column justify-content-center align-items-center">
+            <p>2023 Дыбова Ярослава</p>
+            <p>dibova.yaroslava@yandex.ru</p>
+            <p>+7(915)542-59-84</p>
         </div>
     </div>
     <script src="js/main.js"></script>
