@@ -35,9 +35,18 @@ function showSuccessMessage(text) {
 }
 
 function closeSuccessMessage() {
+    document.getElementById('successMessage').innerHTML = '';
     document.getElementById('successBlock').style.display = 'none';
-    document.getElementById('successMessage').innerHTML = text;
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const message = urlParams.get('message');
+    if (message !== null) {
+        showSuccessMessage(message);
+    }
+});
 
 function sendGet(url, callback) {
     let xmlhttp = new XMLHttpRequest();
@@ -67,7 +76,6 @@ function sendCUD(url, callback, formData = new FormData, method = 'POST') {
                 callback(request.response);
                 closeOrderError();
             } else {
-                console.log(request.response.error);
                 showOrderError(request.response.error);
             }
         }
@@ -379,7 +387,7 @@ function renderGuidePaginationElement() {
 // Получение списка маршрутов
 function getRouteList() {
     sendGet(
-        'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes',
+        `${API_URL}/routes`,
         function (response) {
             routeTotalPages = Math.ceil(response.length / ROUTES_PER_PAGE);
             routeCurrentPage = 1;
@@ -519,7 +527,8 @@ function createOrder(
     formData.append('optionFirst', firstOption);
     formData.append('optionSecond', secondOption);
     sendCUD(`${API_URL}/orders`, function (response) {
-        console.log(response);
+        window.location = `?message=Заявка была успешно оформлена
+         за ${price} рублей!`;
     }, formData);
 }
 
@@ -544,27 +553,6 @@ function updateOrder(
     sendCUD(`${API_URL}//orders/${orderId}`, function (response) {
 
     }, formData, 'PUT');
-}
-
-// Удаление заявки
-function deleteOrder(orderId) {
-    sendCUD(`${API_URL}//orders/${orderId}`, function (response) {
-
-    }, null, 'DELETE');
-}
-
-// Получение заявки
-function getOrder(orderId) {
-    sendGet(`${API_URL}//orders/${orderId}`, function (response) {
-
-    });
-}
-
-// Получение информации о гиде
-function getGuide(guideId) {
-    sendGet(`${API_URL}//guides/${guideId}`, function (response) {
-
-    });
 }
 
 function routeSearchEvent(event) {
@@ -671,9 +659,6 @@ function submitCreateOrder(form) {
         pensioners ? 1 : 0,
         food ? 1 : 0
     );
-
-    closeOrderError();
-    showSuccessMessage('Заявка была успешно оформлена');
 
     return false;
 }

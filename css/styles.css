@@ -11,7 +11,6 @@ html body {
     display: flex;
     flex-direction: column;
     background: #9E9E9E;
-
 }
 .nav, .nav-left, .nav-right {
     display: flex;
